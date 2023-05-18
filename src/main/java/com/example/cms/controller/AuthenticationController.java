@@ -43,7 +43,7 @@ public class AuthenticationController {
                 return responseHandler.generateResponse("", MessageCode.USER_ALREADY_EXIST, false, HttpStatus.BAD_REQUEST);
             else
                 userService.signUpUser(userDTO);
-            return responseHandler.generateResponse("", MessageCode.SIGN_UP_SUCCESSFULLY, true, HttpStatus.CREATED);
+            return responseHandler.generateResponse("", MessageCode.SIGN_UP_SUCCESSFULLY, true, HttpStatus.OK);
         } catch (Exception e) {
             log.error(MessageConstants.SIGN_UP_ERROR, e);
         }
@@ -59,9 +59,9 @@ public class AuthenticationController {
             }
             AuthorizationTokenDTO authorizationTokenDTO = userService.signInUser(userDTO);
             if (authorizationTokenDTO!=null) {
-                return responseHandler.generateResponse(authorizationTokenDTO, MessageCode.SIGN_IN_SUCCESSFULLY, true, HttpStatus.CREATED);
+                return responseHandler.generateResponse(authorizationTokenDTO, MessageCode.SIGN_IN_SUCCESSFULLY, true, HttpStatus.OK);
             }
-            return responseHandler.generateResponse("", MessageCode.USERNAME_PAASWORD_INCORRECT, true, HttpStatus.CREATED);
+            return responseHandler.generateResponse("", MessageCode.USERNAME_PAASWORD_INCORRECT, false, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             log.error(MessageConstants.SIGN_IN_ERROR, e);
         }
