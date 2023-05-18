@@ -38,6 +38,7 @@ public class ContactController {
             if (bindingResult.hasErrors()) {
                 return commonUtilsService.requestValidation(bindingResult);
             }
+            contactDTO.setEmail(contactDTO.getEmail().trim().toLowerCase());
             ContactDTO contactResponse;
             if (contactService.existContactByEmail(contactDTO.getEmail())) {
                 return responseHandler.generateResponse("", MessageCode.CONTACT_EXIST_EMAIL, false, HttpStatus.BAD_REQUEST);
@@ -58,6 +59,7 @@ public class ContactController {
             if (bindingResult.hasErrors()) {
                 return commonUtilsService.requestValidation(bindingResult);
             }
+            contactDTO.setEmail(contactDTO.getEmail().trim().toLowerCase());
             Contact contact = contactService.findContact(contactDTO.getId());
             if (contact==null) {
                 return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, false, HttpStatus.BAD_REQUEST);
