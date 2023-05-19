@@ -39,11 +39,7 @@ public class AuthenticationController {
             if (bindingResult.hasErrors()) {
                 return commonUtilsService.requestValidation(bindingResult);
             }
-            if (userService.checkUserNameExist(userDTO.getUserName()))
-                return responseHandler.generateResponse("", MessageCode.USER_ALREADY_EXIST, false, HttpStatus.BAD_REQUEST);
-            else
-                userService.signUpUser(userDTO);
-            return responseHandler.generateResponse("", MessageCode.SIGN_UP_SUCCESSFULLY, true, HttpStatus.OK);
+            return userService.signUpUser(userDTO);
         } catch (Exception e) {
             log.error(MessageConstants.SIGN_UP_ERROR, e);
         }
@@ -57,11 +53,7 @@ public class AuthenticationController {
             if (bindingResult.hasErrors()) {
                 return commonUtilsService.requestValidation(bindingResult);
             }
-            AuthorizationTokenDTO authorizationTokenDTO = userService.signInUser(userDTO);
-            if (authorizationTokenDTO!=null) {
-                return responseHandler.generateResponse(authorizationTokenDTO, MessageCode.SIGN_IN_SUCCESSFULLY, true, HttpStatus.OK);
-            }
-            return responseHandler.generateResponse("", MessageCode.USERNAME_PAASWORD_INCORRECT, false, HttpStatus.BAD_REQUEST);
+            return userService.signInUser(userDTO);
         } catch (Exception e) {
             log.error(MessageConstants.SIGN_IN_ERROR, e);
         }

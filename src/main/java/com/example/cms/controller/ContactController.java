@@ -38,14 +38,7 @@ public class ContactController {
             if (bindingResult.hasErrors()) {
                 return commonUtilsService.requestValidation(bindingResult);
             }
-            contactDTO.setEmail(contactDTO.getEmail().trim().toLowerCase());
-            ContactDTO contactResponse;
-            if (contactService.existContactByEmail(contactDTO.getEmail())) {
-                return responseHandler.generateResponse("", MessageCode.CONTACT_EXIST_EMAIL, false, HttpStatus.BAD_REQUEST);
-            } else {
-                contactResponse = contactService.saveContact(contactDTO);
-            }
-            return responseHandler.generateResponse(contactResponse, MessageCode.CONTACT_CREATED, true, HttpStatus.OK);
+            return contactService.saveContact(contactDTO);
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_CREATE_ERROR, e);
         }
@@ -59,18 +52,7 @@ public class ContactController {
             if (bindingResult.hasErrors()) {
                 return commonUtilsService.requestValidation(bindingResult);
             }
-            contactDTO.setEmail(contactDTO.getEmail().trim().toLowerCase());
-            Contact contact = contactService.findContact(contactDTO.getId());
-            if (contact==null) {
-                return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, false, HttpStatus.BAD_REQUEST);
-            }
-            ContactDTO contactResponse;
-            if (contactService.existContactByEmailAndNotId(contactDTO.getEmail(), contact.getId())) {
-                return responseHandler.generateResponse("", MessageCode.CONTACT_EXIST_EMAIL, false, HttpStatus.BAD_REQUEST);
-            } else {
-                contactResponse = contactService.editContact(contact, contactDTO);
-            }
-            return responseHandler.generateResponse(contactResponse, MessageCode.CONTACT_EDITED, true, HttpStatus.OK);
+            return contactService.editContact(contactDTO);
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_EDIT_ERROR, e);
         }
@@ -81,12 +63,7 @@ public class ContactController {
     public ResponseEntity<Object> deleteContact(@RequestParam long id) {
         try {
             log.info(MessageConstants.CONTACT_DELETE_REQUEST, id);
-            Contact contact = contactService.findContact(id);
-            if (contact==null) {
-                return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, false, HttpStatus.BAD_REQUEST);
-            }
-            contactService.deleteContact(contact);
-            return responseHandler.generateResponse("", MessageCode.CONTACT_DELETED, true, HttpStatus.OK);
+            return contactService.deleteContact(id);
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_DELETE_ERROR, e);
         }
@@ -97,8 +74,7 @@ public class ContactController {
     public ResponseEntity<Object> getContact(@RequestParam long id) {
         try {
             log.info(MessageConstants.CONTACT_GET_REQUEST, id);
-            ContactDTO contactDTO = contactService.findContactData(id);
-            return responseHandler.generateResponse(contactDTO, MessageCode.CONTACT_FETCHED, true, HttpStatus.OK);
+            return contactService.findContactData(id);
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_GET_ERROR, e);
         }
@@ -109,8 +85,7 @@ public class ContactController {
     public ResponseEntity<Object> getAllContact(@RequestParam(defaultValue = "5") Integer limit, @RequestParam(defaultValue = "0") Integer pageNo) {
         try {
             log.info(MessageConstants.ALL_CONTACT_GET_REQUEST, limit, pageNo);
-            PageDTO contacts = contactService.findAllContactData(limit, pageNo);
-            return responseHandler.generateResponse(contacts, MessageCode.CONTACT_FETCHED, true, HttpStatus.OK);
+            return contactService.findAllContactData(limit, pageNo);
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_GET_ERROR, e);
         }
@@ -121,8 +96,7 @@ public class ContactController {
     public ResponseEntity<Object> getContact(@RequestParam String keyword) {
         try {
             log.info(MessageConstants.CONTACT_SEARCH_REQUEST, keyword);
-            List<ContactDTO> contactDTO = contactService.searchContacts(keyword);
-            return responseHandler.generateResponse(contactDTO, MessageCode.CONTACT_FETCHED, true, HttpStatus.OK);
+            return contactService.searchContacts(keyword);
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_SEARCH_ERROR, e);
         }

@@ -1,6 +1,6 @@
 package com.example.cms.security;
 
-import com.example.cms.customexception.GenericNotFoundException;
+import com.example.cms.exception.GenericNotFoundException;
 import com.example.cms.entity.Role;
 import com.example.cms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

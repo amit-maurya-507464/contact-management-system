@@ -1,4 +1,4 @@
-package com.example.cms.customexception;
+package com.example.cms.exception;
 
 public class GenericNotFoundException extends RuntimeException {
 
