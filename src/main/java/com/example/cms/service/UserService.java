@@ -2,6 +2,7 @@ package com.example.cms.service;
 
 import com.example.cms.constants.MessageCode;
 import com.example.cms.constants.MessageConstants;
+import com.example.cms.dto.ApiResponse;
 import com.example.cms.dto.AuthorizationTokenDTO;
 import com.example.cms.dto.UserDTO;
 import com.example.cms.entity.Role;
@@ -40,7 +41,7 @@ public class UserService {
     @Autowired
     private ResponseHandler responseHandler;
 
-    public ResponseEntity<Object> signUpUser(UserDTO userDTO) {
+    public ResponseEntity<ApiResponse> signUpUser(UserDTO userDTO) {
         if (checkUserNameExist(userDTO.getUserName())) {
             return responseHandler.generateResponse("", MessageCode.USER_ALREADY_EXIST, HttpStatus.BAD_REQUEST);
         }
@@ -54,7 +55,7 @@ public class UserService {
         return responseHandler.generateResponse("", MessageCode.SIGN_UP_SUCCESSFULLY, HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> signInUser(UserDTO userDTO) {
+    public ResponseEntity<ApiResponse> signInUser(UserDTO userDTO) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUserName(), userDTO.getPassword()));
             AuthorizationTokenDTO authorizationTokenDTO = new AuthorizationTokenDTO(userDTO.getUserName(), jwtTokenProvider.createAuthToken(userDTO.getUserName()));

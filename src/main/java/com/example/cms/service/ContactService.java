@@ -1,6 +1,7 @@
 package com.example.cms.service;
 
 import com.example.cms.constants.MessageCode;
+import com.example.cms.dto.ApiResponse;
 import com.example.cms.dto.ContactDTO;
 import com.example.cms.dto.PageDTO;
 import com.example.cms.entity.Contact;
@@ -27,7 +28,7 @@ public class ContactService {
     @Autowired
     private ResponseHandler responseHandler;
 
-    public ResponseEntity<Object> saveContact(ContactDTO contactDTO) {
+    public ResponseEntity<ApiResponse> saveContact(ContactDTO contactDTO) {
         contactDTO.setEmail(contactDTO.getEmail().trim().toLowerCase());
         ContactDTO contactResponse;
         if (existContactByEmail(contactDTO.getEmail())) {
@@ -47,7 +48,7 @@ public class ContactService {
         return optionalContact.orElse(null);
     }
 
-    public ResponseEntity<Object> editContact(ContactDTO contactDTO) {
+    public ResponseEntity<ApiResponse> editContact(ContactDTO contactDTO) {
         contactDTO.setEmail(contactDTO.getEmail().trim().toLowerCase());
         Contact contact = findContact(contactDTO.getId());
         if (contact!=null) {
@@ -64,7 +65,7 @@ public class ContactService {
         return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<Object> deleteContact(long id) {
+    public ResponseEntity<ApiResponse> deleteContact(long id) {
         Contact contact = findContact(id);
         if (contact!=null) {
             contactRepository.delete(contact);
@@ -74,7 +75,7 @@ public class ContactService {
 
     }
 
-    public ResponseEntity<Object> findContactData(long id) {
+    public ResponseEntity<ApiResponse> findContactData(long id) {
         Contact contact = findContact(id);
         if (contact!=null) {
             return responseHandler.generateResponse(ModalMapperUtil.map(contact, ContactDTO.class), MessageCode.CONTACT_FETCHED, HttpStatus.OK);
@@ -82,7 +83,7 @@ public class ContactService {
         return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<Object> searchContacts(String keyword) {
+    public ResponseEntity<ApiResponse> searchContacts(String keyword) {
         List<ContactDTO> contactDTOList = ModalMapperUtil.mapAll(contactRepository.findByFirstNameOrLastNameOrEmail(keyword), ContactDTO.class);
         return responseHandler.generateResponse(contactDTOList, MessageCode.CONTACT_FETCHED, HttpStatus.OK);
     }
@@ -95,7 +96,7 @@ public class ContactService {
         return contactRepository.existsByEmailAndNotId(email, id);
     }
 
-    public ResponseEntity<Object> findAllContactData(Integer limit, Integer pageNo) {
+    public ResponseEntity<ApiResponse> findAllContactData(Integer limit, Integer pageNo) {
         Page<Contact> contacts = contactRepository.findAll(PageRequest.of(pageNo, limit));
         PageDTO response = new PageDTO(ModalMapperUtil.mapAll(contacts.getContent(), ContactDTO.class),
                 contacts.getContent().size(), contacts.getTotalPages(), contacts.getTotalElements());

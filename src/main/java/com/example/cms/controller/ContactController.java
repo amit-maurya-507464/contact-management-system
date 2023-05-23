@@ -3,6 +3,7 @@ package com.example.cms.controller;
 import com.example.cms.constants.MessageCode;
 import com.example.cms.constants.MessageConstants;
 import com.example.cms.constants.UrlConstants;
+import com.example.cms.dto.ApiResponse;
 import com.example.cms.dto.ContactDTO;
 import com.example.cms.service.ContactService;
 import com.example.cms.utils.CommonUtilsService;
@@ -28,7 +29,7 @@ public class ContactController {
     private ContactService contactService;
 
     @PostMapping(value = UrlConstants.CONTACT)
-    public ResponseEntity<Object> createContact(@Validated @RequestBody ContactDTO contactDTO, BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse> createContact(@Validated @RequestBody ContactDTO contactDTO, BindingResult bindingResult) {
         try {
             log.info(MessageConstants.CONTACT_CREATE_REQUEST, contactDTO);
             if (bindingResult.hasErrors()) {
@@ -42,7 +43,7 @@ public class ContactController {
     }
 
     @PutMapping(value = UrlConstants.CONTACT)
-    public ResponseEntity<Object> editContact(@Validated @RequestBody ContactDTO contactDTO, BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse> editContact(@Validated @RequestBody ContactDTO contactDTO, BindingResult bindingResult) {
         try {
             log.info(MessageConstants.CONTACT_EDIT_REQUEST, contactDTO);
             if (bindingResult.hasErrors()) {
@@ -56,7 +57,7 @@ public class ContactController {
     }
 
     @DeleteMapping(value = UrlConstants.CONTACT)
-    public ResponseEntity<Object> deleteContact(@RequestParam long id) {
+    public ResponseEntity<ApiResponse> deleteContact(@RequestParam long id) {
         try {
             log.info(MessageConstants.CONTACT_DELETE_REQUEST, id);
             return contactService.deleteContact(id);
@@ -67,7 +68,7 @@ public class ContactController {
     }
 
     @GetMapping(value = UrlConstants.CONTACT)
-    public ResponseEntity<Object> getContact(@RequestParam long id) {
+    public ResponseEntity<ApiResponse> getContact(@RequestParam long id) {
         try {
             log.info(MessageConstants.CONTACT_GET_REQUEST, id);
             return contactService.findContactData(id);
@@ -78,7 +79,7 @@ public class ContactController {
     }
 
     @GetMapping(value = UrlConstants.ALL_CONTACT)
-    public ResponseEntity<Object> getAllContact(@RequestParam(defaultValue = "5") Integer limit, @RequestParam(defaultValue = "0") Integer pageNo) {
+    public ResponseEntity<ApiResponse> getAllContact(@RequestParam(defaultValue = "5") Integer limit, @RequestParam(defaultValue = "0") Integer pageNo) {
         try {
             log.info(MessageConstants.ALL_CONTACT_GET_REQUEST, limit, pageNo);
             return contactService.findAllContactData(limit, pageNo);
@@ -89,7 +90,7 @@ public class ContactController {
     }
 
     @GetMapping(value = UrlConstants.CONTACT_SEARCH)
-    public ResponseEntity<Object> getContact(@RequestParam String keyword) {
+    public ResponseEntity<ApiResponse> getContact(@RequestParam String keyword) {
         try {
             log.info(MessageConstants.CONTACT_SEARCH_REQUEST, keyword);
             return contactService.searchContacts(keyword);

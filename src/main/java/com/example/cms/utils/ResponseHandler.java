@@ -1,5 +1,6 @@
 package com.example.cms.utils;
 
+import com.example.cms.dto.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -19,11 +20,13 @@ public class ResponseHandler {
 	
 	private ResponseHandler() {}
 
-	public ResponseEntity<Object> generateResponse(Object response, String messageCode, HttpStatus httpStatus) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("data", response);
-		map.put("message", messageSource.getMessage(messageCode, null, LocaleContextHolder.getLocale()));
-		map.put("timeStamp", new Date().getTime());
-		return new ResponseEntity<>(map, httpStatus);
+	public ResponseEntity<ApiResponse> generateResponse(Object response, String messageCode, HttpStatus httpStatus) {
+		ApiResponse apiResponse = new ApiResponse(
+				response,
+				messageSource.getMessage(messageCode, null, LocaleContextHolder.getLocale()),
+				new Date().getTime()
+		);
+		return new ResponseEntity<>(apiResponse, httpStatus);
 	}
+
 }

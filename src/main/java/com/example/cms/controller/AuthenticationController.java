@@ -3,6 +3,7 @@ package com.example.cms.controller;
 import com.example.cms.constants.MessageCode;
 import com.example.cms.constants.MessageConstants;
 import com.example.cms.constants.UrlConstants;
+import com.example.cms.dto.ApiResponse;
 import com.example.cms.dto.UserDTO;
 import com.example.cms.service.UserService;
 import com.example.cms.utils.CommonUtilsService;
@@ -32,7 +33,7 @@ public class AuthenticationController {
     private ResponseHandler responseHandler;
 
     @PostMapping(UrlConstants.SIGN_UP)
-    public ResponseEntity<Object> signUp(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse> signUp(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         try {
             log.info(MessageConstants.SIGN_UP_REQUEST, userDTO);
             if (bindingResult.hasErrors()) {
@@ -46,7 +47,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(UrlConstants.SIGN_IN)
-    public ResponseEntity<Object> signIn(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse> signIn(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         try {
             log.info(MessageConstants.SIGN_IN_REQUEST, userDTO);
             if (bindingResult.hasErrors()) {

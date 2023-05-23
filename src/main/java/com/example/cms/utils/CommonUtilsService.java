@@ -1,6 +1,7 @@
 package com.example.cms.utils;
 
 import com.example.cms.constants.MessageConstants;
+import com.example.cms.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -19,7 +20,7 @@ public class CommonUtilsService {
     @Autowired
     private ResponseHandler responseHandler;
 
-    public ResponseEntity<Object> requestValidation(BindingResult bindingResult) {
+    public ResponseEntity<ApiResponse> requestValidation(BindingResult bindingResult) {
         List<String> errors = bindingResult.getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
