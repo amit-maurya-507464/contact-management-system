@@ -1,7 +1,6 @@
 package com.example.cms.dto;
 
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 public class ApiResponse {

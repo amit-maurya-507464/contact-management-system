@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,7 @@ public class ContactService {
     }
 
     public Contact findContact(long id) {
-        Optional<Contact> optionalContact = contactRepository.findById(id);
-        return optionalContact.orElse(null);
+        return contactRepository.findContactById(id);
     }
 
     public ResponseEntity<ApiResponse> editContact(ContactDTO contactDTO) {
@@ -68,7 +68,8 @@ public class ContactService {
     public ResponseEntity<ApiResponse> deleteContact(long id) {
         Contact contact = findContact(id);
         if (contact!=null) {
-            contactRepository.delete(contact);
+            contact.setDeleted(true);
+            contactRepository.save(contact);
             return responseHandler.generateResponse("", MessageCode.CONTACT_DELETED, HttpStatus.OK);
         }
         return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, HttpStatus.BAD_REQUEST);
@@ -97,7 +98,7 @@ public class ContactService {
     }
 
     public ResponseEntity<ApiResponse> findAllContactData(Integer limit, Integer pageNo) {
-        Page<Contact> contacts = contactRepository.findAll(PageRequest.of(pageNo, limit));
+        Page<Contact> contacts = contactRepository.findAllContacts(PageRequest.of(pageNo, limit));
         PageDTO response = new PageDTO(ModalMapperUtil.mapAll(contacts.getContent(), ContactDTO.class),
                 contacts.getContent().size(), contacts.getTotalPages(), contacts.getTotalElements());
         return responseHandler.generateResponse(response, MessageCode.CONTACT_FETCHED, HttpStatus.OK);
