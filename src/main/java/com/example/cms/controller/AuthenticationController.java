@@ -3,7 +3,6 @@ package com.example.cms.controller;
 import com.example.cms.constants.MessageCode;
 import com.example.cms.constants.MessageConstants;
 import com.example.cms.constants.UrlConstants;
-import com.example.cms.dto.AuthorizationTokenDTO;
 import com.example.cms.dto.UserDTO;
 import com.example.cms.service.UserService;
 import com.example.cms.utils.CommonUtilsService;
@@ -43,7 +42,7 @@ public class AuthenticationController {
         } catch (Exception e) {
             log.error(MessageConstants.SIGN_UP_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.SIGN_UP_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.SIGN_UP_ERROR, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(UrlConstants.SIGN_IN)
@@ -57,7 +56,7 @@ public class AuthenticationController {
         } catch (Exception e) {
             log.error(MessageConstants.SIGN_IN_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.SIGN_IN_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.SIGN_IN_ERROR, HttpStatus.BAD_REQUEST);
     }
 
 }

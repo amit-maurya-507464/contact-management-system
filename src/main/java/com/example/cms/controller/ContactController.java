@@ -4,8 +4,6 @@ import com.example.cms.constants.MessageCode;
 import com.example.cms.constants.MessageConstants;
 import com.example.cms.constants.UrlConstants;
 import com.example.cms.dto.ContactDTO;
-import com.example.cms.dto.PageDTO;
-import com.example.cms.entity.Contact;
 import com.example.cms.service.ContactService;
 import com.example.cms.utils.CommonUtilsService;
 import com.example.cms.utils.ResponseHandler;
@@ -16,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -42,7 +38,7 @@ public class ContactController {
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_CREATE_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_CREATE_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_CREATE_ERROR, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping(value = UrlConstants.CONTACT)
@@ -56,7 +52,7 @@ public class ContactController {
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_EDIT_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_EDIT_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_EDIT_ERROR, HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping(value = UrlConstants.CONTACT)
@@ -67,7 +63,7 @@ public class ContactController {
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_DELETE_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_DELETE_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_DELETE_ERROR, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = UrlConstants.CONTACT)
@@ -78,7 +74,7 @@ public class ContactController {
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_GET_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_GET_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_GET_ERROR, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = UrlConstants.ALL_CONTACT)
@@ -89,7 +85,7 @@ public class ContactController {
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_GET_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_GET_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_GET_ERROR, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = UrlConstants.CONTACT_SEARCH)
@@ -100,7 +96,7 @@ public class ContactController {
         } catch (Exception e) {
             log.error(MessageConstants.CONTACT_SEARCH_ERROR, e);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_GET_ERROR, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_GET_ERROR, HttpStatus.BAD_REQUEST);
     }
 
 }

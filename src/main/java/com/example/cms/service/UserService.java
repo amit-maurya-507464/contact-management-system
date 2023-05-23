@@ -42,7 +42,7 @@ public class UserService {
 
     public ResponseEntity<Object> signUpUser(UserDTO userDTO) {
         if (checkUserNameExist(userDTO.getUserName())) {
-            return responseHandler.generateResponse("", MessageCode.USER_ALREADY_EXIST, false, HttpStatus.BAD_REQUEST);
+            return responseHandler.generateResponse("", MessageCode.USER_ALREADY_EXIST, HttpStatus.BAD_REQUEST);
         }
         User user = new User();
         user.setUserName(userDTO.getUserName());
@@ -51,17 +51,17 @@ public class UserService {
         roleSet.add(roleService.findRole(Roles.USER));
         user.setRoles(roleSet);
         userRepository.save(user);
-        return responseHandler.generateResponse("", MessageCode.SIGN_UP_SUCCESSFULLY, true, HttpStatus.OK);
+        return responseHandler.generateResponse("", MessageCode.SIGN_UP_SUCCESSFULLY, HttpStatus.OK);
     }
 
     public ResponseEntity<Object> signInUser(UserDTO userDTO) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getUserName(), userDTO.getPassword()));
             AuthorizationTokenDTO authorizationTokenDTO = new AuthorizationTokenDTO(userDTO.getUserName(), jwtTokenProvider.createAuthToken(userDTO.getUserName()));
-            return responseHandler.generateResponse(authorizationTokenDTO, MessageCode.SIGN_IN_SUCCESSFULLY, true, HttpStatus.OK);
+            return responseHandler.generateResponse(authorizationTokenDTO, MessageCode.SIGN_IN_SUCCESSFULLY, HttpStatus.OK);
         } catch (AuthenticationException e) {
             log.error(MessageConstants.USERNAME_PASSWORD_INCORRECT, e);
-            return responseHandler.generateResponse("", MessageCode.USERNAME_PAASWORD_INCORRECT, false, HttpStatus.BAD_REQUEST);
+            return responseHandler.generateResponse("", MessageCode.USERNAME_PAASWORD_INCORRECT, HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -24,7 +24,7 @@ public class CommonUtilsService {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
         log.error(MessageConstants.REQUEST_ERROR, errors);
-        return responseHandler.generateResponse("", errors.toString(), false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", errors.toString(), HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -19,12 +19,10 @@ public class ResponseHandler {
 	
 	private ResponseHandler() {}
 
-	public ResponseEntity<Object> generateResponse(Object response, String messageCode, boolean isSuccess,
-			HttpStatus httpStatus) {
+	public ResponseEntity<Object> generateResponse(Object response, String messageCode, HttpStatus httpStatus) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("data", response);
 		map.put("message", messageSource.getMessage(messageCode, null, LocaleContextHolder.getLocale()));
-		map.put("isSuccess", isSuccess);
 		map.put("timeStamp", new Date().getTime());
 		return new ResponseEntity<>(map, httpStatus);
 	}

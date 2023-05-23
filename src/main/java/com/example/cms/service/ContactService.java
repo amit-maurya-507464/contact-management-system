@@ -31,7 +31,7 @@ public class ContactService {
         contactDTO.setEmail(contactDTO.getEmail().trim().toLowerCase());
         ContactDTO contactResponse;
         if (existContactByEmail(contactDTO.getEmail())) {
-            return responseHandler.generateResponse("", MessageCode.CONTACT_EXIST_EMAIL, false, HttpStatus.BAD_REQUEST);
+            return responseHandler.generateResponse("", MessageCode.CONTACT_EXIST_EMAIL, HttpStatus.BAD_REQUEST);
         }
         Contact contact = new Contact();
         contact.setFirstName(contactDTO.getFirstName());
@@ -39,7 +39,7 @@ public class ContactService {
         contact.setEmail(contactDTO.getEmail());
         contact.setPhoneNumber(contactDTO.getPhoneNumber());
         contact = contactRepository.save(contact);
-        return responseHandler.generateResponse(ModalMapperUtil.map(contact, ContactDTO.class), MessageCode.CONTACT_CREATED, true, HttpStatus.OK);
+        return responseHandler.generateResponse(ModalMapperUtil.map(contact, ContactDTO.class), MessageCode.CONTACT_CREATED, HttpStatus.OK);
     }
 
     public Contact findContact(long id) {
@@ -52,39 +52,39 @@ public class ContactService {
         Contact contact = findContact(contactDTO.getId());
         if (contact!=null) {
             if (existContactByEmailAndNotId(contactDTO.getEmail(), contact.getId())) {
-                return responseHandler.generateResponse("", MessageCode.CONTACT_EXIST_EMAIL, false, HttpStatus.BAD_REQUEST);
+                return responseHandler.generateResponse("", MessageCode.CONTACT_EXIST_EMAIL, HttpStatus.BAD_REQUEST);
             }
             contact.setFirstName(contactDTO.getFirstName());
             contact.setLastName(contactDTO.getLastName());
             contact.setEmail(contactDTO.getEmail());
             contact.setPhoneNumber(contactDTO.getPhoneNumber());
             contact = contactRepository.save(contact);
-            return responseHandler.generateResponse(ModalMapperUtil.map(contact, ContactDTO.class), MessageCode.CONTACT_EDITED, true, HttpStatus.OK);
+            return responseHandler.generateResponse(ModalMapperUtil.map(contact, ContactDTO.class), MessageCode.CONTACT_EDITED, HttpStatus.OK);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<Object> deleteContact(long id) {
         Contact contact = findContact(id);
         if (contact!=null) {
             contactRepository.delete(contact);
-            return responseHandler.generateResponse("", MessageCode.CONTACT_DELETED, true, HttpStatus.OK);
+            return responseHandler.generateResponse("", MessageCode.CONTACT_DELETED, HttpStatus.OK);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, HttpStatus.BAD_REQUEST);
 
     }
 
     public ResponseEntity<Object> findContactData(long id) {
         Contact contact = findContact(id);
         if (contact!=null) {
-            return responseHandler.generateResponse(ModalMapperUtil.map(contact, ContactDTO.class), MessageCode.CONTACT_FETCHED, true, HttpStatus.OK);
+            return responseHandler.generateResponse(ModalMapperUtil.map(contact, ContactDTO.class), MessageCode.CONTACT_FETCHED, HttpStatus.OK);
         }
-        return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, false, HttpStatus.BAD_REQUEST);
+        return responseHandler.generateResponse("", MessageCode.CONTACT_NOT_FOUND, HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<Object> searchContacts(String keyword) {
         List<ContactDTO> contactDTOList = ModalMapperUtil.mapAll(contactRepository.findByFirstNameOrLastNameOrEmail(keyword), ContactDTO.class);
-        return responseHandler.generateResponse(contactDTOList, MessageCode.CONTACT_FETCHED, true, HttpStatus.OK);
+        return responseHandler.generateResponse(contactDTOList, MessageCode.CONTACT_FETCHED, HttpStatus.OK);
     }
 
     public boolean existContactByEmail(String email) {
@@ -99,6 +99,6 @@ public class ContactService {
         Page<Contact> contacts = contactRepository.findAll(PageRequest.of(pageNo, limit));
         PageDTO response = new PageDTO(ModalMapperUtil.mapAll(contacts.getContent(), ContactDTO.class),
                 contacts.getContent().size(), contacts.getTotalPages(), contacts.getTotalElements());
-        return responseHandler.generateResponse(response, MessageCode.CONTACT_FETCHED, true, HttpStatus.OK);
+        return responseHandler.generateResponse(response, MessageCode.CONTACT_FETCHED, HttpStatus.OK);
     }
 }
