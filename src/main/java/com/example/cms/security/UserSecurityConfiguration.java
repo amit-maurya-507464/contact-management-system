@@ -1,8 +1,11 @@
 package com.example.cms.security;
 
+import com.example.cms.enums.Privileges;
+import com.example.cms.enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,6 +33,9 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/api/v1/signIn", "/api/v1/signUp").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/api/v1/contact").hasAuthority(Privileges.CONTACT_DELETE.name())
+                .antMatchers("/api/v1/contact").hasRole(Roles.USER.name())
+                .antMatchers("/api/v1/allContact", "/api/v1/contact/search").hasRole(Roles.SUPER_ADMIN.name())
                 .anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement()

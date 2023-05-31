@@ -35,6 +35,8 @@ public class JwtTokenProvider {
 
 	public String createAuthToken(String userName) {
 		Claims claims = Jwts.claims().setSubject(userName);
+//		claims.put("auth", "ADMIN");
+//		claims.put("role", "ROLE_ADMIN");
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + authTokenValidityInMilliseconds);
 		return Jwts.builder()

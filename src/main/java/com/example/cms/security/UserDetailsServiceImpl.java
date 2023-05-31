@@ -1,5 +1,6 @@
 package com.example.cms.security;
 
+import com.example.cms.entity.Privilege;
 import com.example.cms.entity.Role;
 import com.example.cms.exception.GenericNotFoundException;
 import com.example.cms.repository.UserRepository;
@@ -11,7 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +35,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 	
 	private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
-		return user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
-				.collect(Collectors.toList());
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		roles.forEach(role -> {
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName().name()));
+			role.getPrivileges().stream()
+					.map(privilege -> new SimpleGrantedAuthority(privilege.getName().name())).forEach(authorities::add);
+		});
+		return authorities;
 	}
 
 }

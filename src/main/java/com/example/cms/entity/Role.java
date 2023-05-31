@@ -29,4 +29,10 @@ public class Role extends BaseEntity {
 	@JsonIgnore
 	private Set<User> users;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "roles_privileges", joinColumns = {
+			@JoinColumn(referencedColumnName = "id") }, inverseJoinColumns = {
+			@JoinColumn(referencedColumnName = "id") })
+	private Set<Privilege> privileges;
+
 }
