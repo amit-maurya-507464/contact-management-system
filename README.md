@@ -1,7 +1,32 @@
-# contact-management-system
+# Contact Management System
 
-This is a spring boot project. 
-It has APIs for contact management. 
-It has JWT based authenticaion for seccurity. 
-H2 database is used for storage.
-Swagger is used for documenation
+## Authentication and Authorization
+
+It has authentication and authorization implemented by spring security.
+1. Jwt Token based authentication
+2. Role based authorization
+3. Privileges based authentication
+
+## Documentation
+This project uses springdoc-openapi for documentation.
+springdoc-openapi java library helps to automate the generation of API documentation using spring boot projects.
+
+**This library supports:**
+1. OpenAPI 3
+2. Spring-boot (v1, v2 and v3)
+3. JSR-303, specifically for @NotNull, @Min, @Max, and @Size.
+4. Swagger-ui
+5. OAuth 2
+6. GraalVM native images
+
+## Rest APIs
+It has Rest API for Contacts management which includes creating, editing, searching, deliting and getting data.
+It has signup and login APIs.
+
+## Database
+It has in memory H2 database configured.
+During the application startup it creates following data in database:
+1. Default Privileges
+2. Default Roles
+3. Super Admin user
+
