@@ -1,5 +1,16 @@
 # Contact Management System
 
+## Runing and Testing
+**IDE:** 
+Open project in any IDE and run as a spring boot Project. <br>
+**Command line:** 
+Open terminal and loacte to pom.xml file directory and type command - 
+`mvn dpring-boot:run`
+
+Use the following url to test the Application:
+http://localhost:8080/swagger-ui/index.html
+
+
 ## Authentication and Authorization
 
 It has authentication and authorization implemented by spring security and JWT (JSON Web Token).
