@@ -7,9 +7,13 @@ It has authentication and authorization implemented by spring security.
 2. Role based authorization
 3. Privileges based authentication
 
+![auth.png](assets%2Fimages%2Fauth.png)
+
 ## Documentation
 This project uses springdoc-openapi for documentation.
 springdoc-openapi java library helps to automate the generation of API documentation using spring boot projects.
+
+![swagger.png](assets%2Fimages%2Fswagger.png)
 
 **This library supports:**
 1. OpenAPI 3
@@ -29,4 +33,6 @@ During the application startup it creates following data in database:
 1. Default Privileges
 2. Default Roles
 3. Super Admin user
+
+![h2-db.png](assets%2Fimages%2Fh2-db.png)
 
