@@ -1,4 +1,5 @@
 # Contact Management System
+Spring Boot Project for contacts management with authentication and authorisation using Spring Security and JWT.
 
 ## Runing and Testing
 **IDE:** 
