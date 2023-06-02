@@ -2,10 +2,10 @@
 
 ## Authentication and Authorization
 
-It has authentication and authorization implemented by spring security.
-1. Jwt Token based authentication
-2. Role based authorization
-3. Privileges based authentication
+It has authentication and authorization implemented by spring security and JWT (JSON Web Token).
+1. Jwt Token based authentication on APIs
+2. Role based authorization on APIs
+3. Privileges based authentication on APIs
 
 ![auth.png](assets%2Fimages%2Fauth.png)
 
